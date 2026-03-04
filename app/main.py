@@ -1,5 +1,8 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
+from app.rag.agent import build_graph
+
+graph = build_graph()
 
 app = FastAPI(title="CX Barometer (Prototype)")
 
@@ -13,7 +16,5 @@ def health():
 
 @app.post("/ask")
 async def ask(req: AskRequest):
-    #  kasnije ovdje ubacimo LangGraph Agentic RAG
-    return {
-        "answer": f"Stub: received question='{req.question}' (customer_id={req.customer_id})",
-    }
+    out = await graph.ainvoke({"question": req.question, "customer_id": req.customer_id})
+    return {"answer": out.get("answer", "")}
