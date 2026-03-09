@@ -1,4 +1,6 @@
 {
   "include": ["app"],
-  "stubPath": "typings"
+  "stubPath": "typings",
+  "venvPath": ".",
+  "venv": ".venv"
 }
