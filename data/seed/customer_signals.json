@@ -1,0 +1,35 @@
+[
+    {
+      "customer_id": "1001",
+      "company_name": "Prva firma d.o.o.",
+      "churn_risk": 0.78,
+      "churn_label": "high",
+      "medallia_score": 3,
+      "open_complaints": 1,
+      "recent_outages": 2,
+      "ftth_available": false,
+      "network_quality_status": "degraded",
+      "billing_issue_open": true,
+      "notes": [
+        "Customer reported slow speed",
+        "Invoice INV-7781 dispute is still open",
+        "Two incidents in the last 7 days"
+      ]
+    },
+    {
+      "customer_id": "1002",
+      "company_name": "Druga firma d.o.o.",
+      "churn_risk": 0.22,
+      "churn_label": "low",
+      "medallia_score": 8,
+      "open_complaints": 0,
+      "recent_outages": 0,
+      "ftth_available": true,
+      "network_quality_status": "stable",
+      "billing_issue_open": false,
+      "notes": [
+        "Customer recently upgraded package",
+        "No recent service issues"
+      ]
+    }
+  ]

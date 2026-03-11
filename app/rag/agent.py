@@ -6,12 +6,14 @@ from langchain_openai import ChatOpenAI
 from app.settings import settings
 from app.rag.retriever import get_retriever
 from app.tools.web_search import tavily_search
+from app.tools.customer_signals import get_customer_signals
 
 
 class State(TypedDict, total=False):
     question: str
     customer_id: str | None
     retrieved: List[Dict[str, Any]]
+    customer_signals: Dict[str, Any]
     web_results: List[Dict[str, Any]]
     answer: str
 
@@ -44,6 +46,14 @@ def build_graph():
         retrieved = [{"text": d.page_content, "meta": d.metadata} for d in docs]
         return {"retrieved": retrieved}
 
+    def customer_signals_node(state: State) -> State:
+        customer_id = state.get("customer_id")
+        if not customer_id:
+            return {"customer_signals": {"error": "No customer_id provided"}}
+
+        signals = get_customer_signals(customer_id)
+        return {"customer_signals": signals}
+
     def web_node(state: State) -> State:
         if should_use_web_search(state["question"]):
             results = tavily_search(state["question"])
@@ -56,6 +66,10 @@ def build_graph():
         for i, r in enumerate(state.get("retrieved", []), 1):
             ctx.append(f"[RAG {i}] {r['text']}\nMETA: {r['meta']}")
 
+        signals = state.get("customer_signals", {})
+        if signals:
+            ctx.append(f"[SIGNALS] {signals}")
+
         for i, w in enumerate(state.get("web_results", []), 1):
             ctx.append(
                 f"[WEB {i}] {w['title']}\n"
@@ -64,6 +78,12 @@ def build_graph():
             )
 
         prompt = f"""You are CX Barometer assistant for a B2B call-center agent.
+
+Your job is to combine:
+1. Retrieved customer interaction context
+2. Structured customer signals
+3. Public web context (if available)
+
 Answer grounded ONLY in the provided context. If context is insufficient, say what is missing.
 
 QUESTION:
@@ -74,20 +94,25 @@ CONTEXT:
 
 OUTPUT:
 - Sentiment (Green/Yellow/Red) + 1-line rationale
+- Customer risk summary
 - Top 3 talking points for the agent
-- Evidence bullets referencing [RAG #] and, if used, [WEB #]
+- Evidence bullets referencing [RAG #], [SIGNALS], and if used [WEB #]
 """
 
         resp = llm.invoke(prompt)
         return {"answer": resp.content}
 
     g = StateGraph(State)
+
     g.add_node("retrieve", retrieve_node)
+    g.add_node("load_customer_signals", customer_signals_node)
     g.add_node("web_search", web_node)
     g.add_node("generate", answer_node)
 
     g.set_entry_point("retrieve")
-    g.add_edge("retrieve", "web_search")
+
+    g.add_edge("retrieve", "load_customer_signals")
+    g.add_edge("load_customer_signals", "web_search")
     g.add_edge("web_search", "generate")
     g.add_edge("generate", END)
 
