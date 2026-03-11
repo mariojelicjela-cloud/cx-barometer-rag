@@ -21,5 +21,6 @@ def run():
     vstore.add_texts([d.text for d in docs], metadatas=[d.metadata for d in docs])
     print(f"Ingested {len(docs)} chunks into pgvector.")
 
+
 if __name__ == "__main__":
     run()

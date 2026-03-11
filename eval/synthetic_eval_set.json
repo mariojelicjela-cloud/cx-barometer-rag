@@ -1,0 +1,58 @@
+[
+    {
+      "id": 1,
+      "customer_id": "1001",
+      "question": "What is the customer sentiment and why?",
+      "expected_sentiment": "Red",
+      "expected_keywords": ["churn", "billing", "outages", "Medallia"]
+    },
+    {
+      "id": 2,
+      "customer_id": "1001",
+      "question": "What are the top talking points for the agent?",
+      "expected_sentiment": "Red",
+      "expected_keywords": ["billing", "FTTH", "outages"]
+    },
+    {
+      "id": 3,
+      "customer_id": "1001",
+      "question": "Summarize the current customer risk.",
+      "expected_sentiment": "Red",
+      "expected_keywords": ["high churn risk", "complaint", "degraded"]
+    },
+    {
+      "id": 4,
+      "customer_id": "1002",
+      "question": "What is the customer sentiment and why?",
+      "expected_sentiment": "Green",
+      "expected_keywords": ["stable", "no recent issues", "low churn"]
+    },
+    {
+      "id": 5,
+      "customer_id": "1002",
+      "question": "What should the agent focus on in this interaction?",
+      "expected_sentiment": "Green",
+      "expected_keywords": ["upgrade", "stable", "no complaints"]
+    },
+    {
+      "id": 6,
+      "customer_id": "1001",
+      "question": "Are there any public news or media issues related to telecom services, and what is this customer's current risk?",
+      "expected_sentiment": "Red",
+      "expected_keywords": ["risk", "outages", "billing"]
+    },
+    {
+      "id": 7,
+      "customer_id": "1002",
+      "question": "Summarize this customer's current experience and risk level.",
+      "expected_sentiment": "Green",
+      "expected_keywords": ["low risk", "stable", "no complaints"]
+    },
+    {
+      "id": 8,
+      "customer_id": "1001",
+      "question": "What are the key reasons this customer may churn?",
+      "expected_sentiment": "Red",
+      "expected_keywords": ["churn", "complaint", "outages", "low satisfaction"]
+    }
+  ]

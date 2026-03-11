@@ -276,17 +276,43 @@ This design keeps the system grounded (retrieved evidence), fast (structured dat
 
 🧪 5. Evaluation Baseline
 
-(To be completed)
+To establish an initial evaluation baseline, I created a synthetic evaluation dataset representing typical customer-support scenarios handled by the CX Barometer system.
 
-Synthetic question set
+The dataset contains 8 test cases, covering both high-risk and low-risk customers, and questions that require combining multiple data sources:
+- retrieved customer interaction history (RAG)
+- structured customer signals (churn, outages, complaints)
+- optional public context via web search
 
-Context precision
 
-Context recall
+Each test case includes:
+- question
+- customer_id
+- expected sentiment label
+- expected context keyword
 
-Sentiment accuracy
 
-Agent usefulness rating
+Evaluation metrics
+
+Two baseline metrics were used:
+
+Sentiment Accuracy
+Measures whether the system correctly predicts the expected sentiment category (Green / Yellow / Red).
+
+Keyword Recall
+Measures how many expected context signals appear in the generated answer.
+
+Baseline Results
+Metric	Result_ 
+- number of test cases	8
+- sentiment accuracy	0.125
+- keyword recall	0.577
+- interpretation
+
+The low sentiment accuracy indicates that the current prompt and evaluation method require improvement. In several cases the model produced sentiment descriptions that did not exactly match the expected label format.
+
+However, the keyword recall score shows that the model successfully incorporates relevant customer context signals in more than half of the expected cases.
+
+This baseline provides a measurable starting point for the next phase, where retriever configuration and prompting strategies will be improved.
 
 
 

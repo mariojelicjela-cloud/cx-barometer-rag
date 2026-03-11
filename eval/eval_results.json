@@ -1,0 +1,95 @@
+{
+  "num_cases": 8,
+  "sentiment_accuracy": 0.125,
+  "keyword_recall": 0.577,
+  "results": [
+    {
+      "id": 1,
+      "question": "What is the customer sentiment and why?",
+      "customer_id": "1001",
+      "expected_sentiment": "Red",
+      "predicted_sentiment": "Unknown",
+      "sentiment_correct": false,
+      "keyword_hits": 4,
+      "keyword_total": 4,
+      "answer": "- **Sentiment:** Red - The customer is experiencing multiple issues, including slow internet speed, a billing dispute, and recent service outages, leading to significant frustration.\n\n- **Customer risk summary:** The customer has a high churn risk (0.78) due to unresolved complaints and poor service experience.\n\n- **Top 3 talking points for the agent:**\n  1. Acknowledge the customer's frustration regarding slow internet speed and service outages.\n  2. Clarify the status of the billing dispute related to invoice INV-7781.\n  3. Provide a timeline for when FTTH (Fiber to the Home) service might be available, as it is currently not available.\n\n- **Evidence bullets:**\n  - The customer reported slow internet speed and has an open billing dispute (Invoice INV-7781) [RAG 1].\n  - The Medallia feedback score is low at 3/10, indicating dissatisfaction with resolution time and communication clarity [SIGNALS].\n  - There have been two service outages recorded in the last 7 days, contributing to a degraded network quality status [SIGNALS]."
+    },
+    {
+      "id": 2,
+      "question": "What are the top talking points for the agent?",
+      "customer_id": "1001",
+      "expected_sentiment": "Red",
+      "predicted_sentiment": "Unknown",
+      "sentiment_correct": false,
+      "keyword_hits": 3,
+      "keyword_total": 3,
+      "answer": "- **Sentiment:** Red - The customer is frustrated due to slow internet speeds, billing disputes, and recent service outages.\n\n- **Customer risk summary:** The customer has a high churn risk (0.78) and has expressed dissatisfaction through a low Medallia score (3/10) and an open complaint regarding billing.\n\n- **Top 3 talking points for the agent:**\n  1. **Acknowledge Customer Frustration:** Begin the conversation by recognizing the customer's dissatisfaction with the slow internet speed and the impact of recent service outages on their experience.\n  2. **Clarify Billing Dispute Status:** Provide an update on the status of the billing dispute related to invoice INV-7781, ensuring the customer understands the steps being taken to resolve it.\n  3. **Discuss FTTH Availability Timeline:** Inform the customer that FTTH is currently not available, but provide a timeline or next steps for when they can expect updates on this service.\n\n- **Evidence bullets:**\n  - Customer reported slow internet speed and asked about FTTH availability [RAG 1].\n  - Open complaint regarding invoice INV-7781 [SIGNALS].\n  - Medallia feedback indicates dissatisfaction with resolution time and communication clarity [RAG 1].\n  - High churn risk (0.78) suggests urgency in addressing customer concerns [SIGNALS]."
+    },
+    {
+      "id": 3,
+      "question": "Summarize the current customer risk.",
+      "customer_id": "1001",
+      "expected_sentiment": "Red",
+      "predicted_sentiment": "Unknown",
+      "sentiment_correct": false,
+      "keyword_hits": 2,
+      "keyword_total": 3,
+      "answer": "- **Sentiment:** Red - The customer is experiencing multiple issues leading to high frustration and dissatisfaction.\n\n- **Customer risk summary:** The customer, Primjer d.o.o., is at high risk of churn due to unresolved complaints, poor service quality, and a low satisfaction score. They have reported slow internet speeds, are disputing a billing issue, and have experienced service outages recently.\n\n- **Top 3 talking points for the agent:**\n  1. Acknowledge the customer's frustration regarding slow internet speeds and the impact of recent service outages.\n  2. Provide a clear update on the status of the billing dispute for invoice INV-7781 and outline the next steps.\n  3. Inform the customer about the timeline for FTTH availability, emphasizing efforts to improve service quality.\n\n- **Evidence bullets:**\n  - The customer has a Medallia feedback score of 3/10, indicating dissatisfaction with resolution time and communication clarity [RAG 1].\n  - There is an open billing dispute related to invoice INV-7781, which is contributing to the customer's frustration [SIGNALS].\n  - The customer has experienced two service outages in the last 7 days, leading to degraded network quality [SIGNALS]. \n  - The churn prediction score is high at 0.78, indicating a significant risk of customer churn [SIGNALS]."
+    },
+    {
+      "id": 4,
+      "question": "What is the customer sentiment and why?",
+      "customer_id": "1002",
+      "expected_sentiment": "Green",
+      "predicted_sentiment": "Unknown",
+      "sentiment_correct": false,
+      "keyword_hits": 0,
+      "keyword_total": 3,
+      "answer": "- **Sentiment:** Red - The customer is frustrated due to slow internet speeds, billing disputes, and recent service outages.\n\n- **Customer risk summary:** High churn risk (0.78) indicates that the customer is likely to leave due to dissatisfaction with service and unresolved issues.\n\n- **Top 3 talking points for the agent:**\n  1. Acknowledge the customer's frustration regarding slow internet speeds and recent service outages.\n  2. Clarify the status of the billing dispute related to invoice INV-7781.\n  3. Provide a clear timeline for the availability of FTTH to address the customer's concerns.\n\n- **Evidence bullets:**\n  - Customer reported slow internet speed and asked about FTTH availability, indicating dissatisfaction with current service [RAG 1].\n  - The customer has a Medallia feedback score of 3/10, highlighting issues with resolution time and communication clarity [RAG 1].\n  - Two service outages recorded in the last 7 days contribute to the customer's negative sentiment and high churn risk [RAG 1]."
+    },
+    {
+      "id": 5,
+      "question": "What should the agent focus on in this interaction?",
+      "customer_id": "1002",
+      "expected_sentiment": "Green",
+      "predicted_sentiment": "Unknown",
+      "sentiment_correct": false,
+      "keyword_hits": 0,
+      "keyword_total": 3,
+      "answer": "- **Sentiment:** Red - The customer is frustrated due to slow internet speed, a billing dispute, and poor communication.\n\n- **Customer risk summary:** High churn risk (0.78) due to unresolved issues and dissatisfaction with service.\n\n- **Top 3 talking points for the agent:**\n  1. Acknowledge the customer's frustration regarding slow internet speeds and the impact of recent service outages.\n  2. Clarify the status of the billing dispute related to invoice INV-7781 and provide a clear explanation.\n  3. Offer a timeline for FTTH availability to address the customer's inquiry and improve their experience.\n\n- **Evidence bullets:**\n  - Customer reported slow internet speed and asked about FTTH availability [RAG 1].\n  - There is an ongoing billing dispute regarding invoice INV-7781 [RAG 1].\n  - Medallia feedback indicates a score of 3/10 with comments on slow resolution time and unclear communication [RAG 1].\n  - Two service outages were recorded in the last 7 days, contributing to customer dissatisfaction [RAG 1].\n  - High churn risk is indicated at 0.78, suggesting the customer may leave if issues are not resolved [RAG 1]."
+    },
+    {
+      "id": 6,
+      "question": "Are there any public news or media issues related to telecom services, and what is this customer's current risk?",
+      "customer_id": "1001",
+      "expected_sentiment": "Red",
+      "predicted_sentiment": "Red",
+      "sentiment_correct": true,
+      "keyword_hits": 3,
+      "keyword_total": 3,
+      "answer": "### Sentiment: Red  \n**Rationale:** The customer has reported multiple issues, including slow internet speed, a billing dispute, and has a low satisfaction score.\n\n### Customer Risk Summary:  \nThe customer, Primjer d.o.o., is at high risk of churn (0.78) due to unresolved complaints, recent service outages, and dissatisfaction with communication and resolution times.\n\n### Top 3 Talking Points for the Agent:  \n1. **Acknowledge Frustration:** Start the conversation by recognizing the customer's frustration with slow internet speeds and the ongoing billing dispute.\n2. **Clarify Billing Dispute:** Provide an update on the status of the billing dispute related to invoice INV-7781 and ensure the customer understands the next steps.\n3. **FTTH Availability Timeline:** Inform the customer about the timeline for FTTH availability, emphasizing any efforts being made to improve service quality.\n\n### Evidence Bullets:  \n- Customer reported slow internet speed and asked about FTTH availability [RAG 1].\n- Open complaint regarding billing dispute for invoice INV-7781 [SIGNALS].\n- Customer's Medallia feedback score is 3/10, indicating dissatisfaction with resolution time and communication [SIGNALS].\n- Two service outages recorded in the last 7 days, contributing to a degraded network quality status [SIGNALS].\n- High churn risk of 0.78 indicates significant risk of losing the customer [SIGNALS]."
+    },
+    {
+      "id": 7,
+      "question": "Summarize this customer's current experience and risk level.",
+      "customer_id": "1002",
+      "expected_sentiment": "Green",
+      "predicted_sentiment": "Unknown",
+      "sentiment_correct": false,
+      "keyword_hits": 0,
+      "keyword_total": 3,
+      "answer": "- **Sentiment:** Red - The customer is experiencing significant issues with service and communication, leading to frustration.\n\n- **Customer risk summary:** The customer, Primjer d.o.o., is at high risk of churn (0.78) due to unresolved complaints, slow resolution times, and recent service outages.\n\n- **Top 3 talking points for the agent:**\n  1. Acknowledge the customer's frustration regarding slow internet speeds and the billing dispute.\n  2. Clarify the status of the billing dispute related to invoice INV-7781.\n  3. Provide a clear timeline for the availability of FTTH service.\n\n- **Evidence bullets:**\n  - Customer reported slow internet speed and inquired about FTTH availability [RAG 1].\n  - There is an open complaint regarding a billing dispute for invoice INV-7781 [RAG 1].\n  - Medallia feedback indicates a low satisfaction score (3/10) due to slow resolution times and unclear communication [RAG 1].\n  - Two service outages have been recorded in the last week, contributing to customer dissatisfaction [RAG 1].\n  - High churn risk score of 0.78 indicates a significant likelihood of the customer leaving [RAG 1]."
+    },
+    {
+      "id": 8,
+      "question": "What are the key reasons this customer may churn?",
+      "customer_id": "1001",
+      "expected_sentiment": "Red",
+      "predicted_sentiment": "Unknown",
+      "sentiment_correct": false,
+      "keyword_hits": 3,
+      "keyword_total": 4,
+      "answer": "- **Sentiment:** Red - The customer is experiencing multiple issues that have led to dissatisfaction and a high churn risk.\n\n- **Customer risk summary:** The customer, Prva firma d.o.o., has a high churn risk (0.78) due to unresolved complaints, slow internet speed, and recent service outages.\n\n- **Top 3 talking points for the agent:**\n  1. Acknowledge the customer's frustration regarding slow internet speeds and recent outages.\n  2. Clarify the status of the billing dispute for invoice INV-7781 and provide an update.\n  3. Inform the customer about the timeline for FTTH availability and address their concerns about network quality.\n\n- **Evidence bullets:**\n  - The customer reported slow internet speed and asked about FTTH availability, indicating dissatisfaction with current service [RAG 1].\n  - There is an open billing dispute regarding invoice INV-7781, which remains unresolved [SIGNALS].\n  - The customer provided a low Medallia feedback score of 3/10, citing slow resolution times and unclear communication [RAG 1].\n  - Two service outages have been recorded in the last 7 days, contributing to a degraded network quality status [SIGNALS]."
+    }
+  ]
+}

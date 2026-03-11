@@ -8,12 +8,15 @@ from app.rag.retriever import get_retriever
 from app.tools.web_search import tavily_search
 from app.tools.customer_signals import get_customer_signals
 
+from app.tools.medallia_sentiment import score_medallia_sentiment
+
 
 class State(TypedDict, total=False):
     question: str
     customer_id: str | None
     retrieved: List[Dict[str, Any]]
     customer_signals: Dict[str, Any]
+    medallia_sentiment: Dict[str, Any]
     web_results: List[Dict[str, Any]]
     answer: str
 
@@ -60,6 +63,14 @@ def build_graph():
             return {"web_results": results}
         return {"web_results": []}
 
+    def medallia_sentiment_node(state: State) -> State:
+        customer_id = state.get("customer_id")
+        if not customer_id:
+            return {"medallia_sentiment": {"error": "No customer_id provided"}}
+
+        sentiment = score_medallia_sentiment(customer_id)
+        return {"medallia_sentiment": sentiment}
+
     def answer_node(state: State) -> State:
         ctx = []
 
@@ -69,6 +80,10 @@ def build_graph():
         signals = state.get("customer_signals", {})
         if signals:
             ctx.append(f"[SIGNALS] {signals}")
+
+        medallia_sentiment = state.get("medallia_sentiment", {})
+        if medallia_sentiment:
+            ctx.append(f"[MEDALLIA_SENTIMENT] {medallia_sentiment}")
 
         for i, w in enumerate(state.get("web_results", []), 1):
             ctx.append(
@@ -82,7 +97,8 @@ def build_graph():
 Your job is to combine:
 1. Retrieved customer interaction context
 2. Structured customer signals
-3. Public web context (if available)
+3. Medallia sentiment scoring
+4. Public web context (if available)
 
 Answer grounded ONLY in the provided context. If context is insufficient, say what is missing.
 
@@ -92,11 +108,19 @@ QUESTION:
 CONTEXT:
 {chr(10).join(ctx)}
 
-OUTPUT:
-- Sentiment (Green/Yellow/Red) + 1-line rationale
-- Customer risk summary
-- Top 3 talking points for the agent
-- Evidence bullets referencing [RAG #], [SIGNALS], and if used [WEB #]
+OUTPUT FORMAT (strict):
+Sentiment: <Green|Yellow|Red>
+
+Customer Risk Summary:
+<short summary>
+
+Top Talking Points:
+1.
+2.
+3.
+
+Evidence:
+- bullets referencing [RAG #], [SIGNALS], [MEDALLIA_SENTIMENT], and if used [WEB #]
 """
 
         resp = llm.invoke(prompt)
@@ -106,12 +130,14 @@ OUTPUT:
 
     g.add_node("retrieve", retrieve_node)
     g.add_node("load_customer_signals", customer_signals_node)
+    g.add_node("score_medallia_sentiment", medallia_sentiment_node)
     g.add_node("web_search", web_node)
     g.add_node("generate", answer_node)
 
     g.set_entry_point("retrieve")
 
     g.add_edge("retrieve", "load_customer_signals")
+    g.add_edge("load_customer_signals", "score_medallia_sentiment")
     g.add_edge("load_customer_signals", "web_search")
     g.add_edge("web_search", "generate")
     g.add_edge("generate", END)
