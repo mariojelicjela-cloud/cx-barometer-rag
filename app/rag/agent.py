@@ -1,4 +1,4 @@
-from typing import TypedDict, List, Dict, Any
+from typing import TypedDict, List, Dict, Any, cast
 
 from langgraph.graph import StateGraph, END
 from langchain_openai import ChatOpenAI
@@ -42,10 +42,16 @@ def build_graph():
         model=getattr(settings, "OPENAI_MODEL", "gpt-4o-mini"),
         temperature=0.2,
     )
-    retriever = get_retriever(settings.DATABASE_URL)
+
+    def _question(state: State) -> str:
+        q = state.get("question")
+        if not q:
+            raise ValueError("Missing required 'question' in state")
+        return cast(str, q)
 
     def retrieve_node(state: State) -> State:
-        docs = retriever.get_relevant_documents(state["question"])
+        retriever = get_retriever(settings.DATABASE_URL, state.get("customer_id"))
+        docs = retriever.get_relevant_documents(_question(state))
         retrieved = [{"text": d.page_content, "meta": d.metadata} for d in docs]
         return {"retrieved": retrieved}
 
@@ -58,8 +64,9 @@ def build_graph():
         return {"customer_signals": signals}
 
     def web_node(state: State) -> State:
-        if should_use_web_search(state["question"]):
-            results = tavily_search(state["question"])
+        q = _question(state)
+        if should_use_web_search(q):
+            results = tavily_search(q)
             return {"web_results": results}
         return {"web_results": []}
 
@@ -72,7 +79,7 @@ def build_graph():
         return {"medallia_sentiment": sentiment}
 
     def answer_node(state: State) -> State:
-        ctx = []
+        ctx: list[str] = []
 
         for i, r in enumerate(state.get("retrieved", []), 1):
             ctx.append(f"[RAG {i}] {r['text']}\nMETA: {r['meta']}")
@@ -103,7 +110,7 @@ Your job is to combine:
 Answer grounded ONLY in the provided context. If context is insufficient, say what is missing.
 
 QUESTION:
-{state['question']}
+{_question(state)}
 
 CONTEXT:
 {chr(10).join(ctx)}
@@ -124,7 +131,8 @@ Evidence:
 """
 
         resp = llm.invoke(prompt)
-        return {"answer": resp.content}
+        answer_text = resp.content if isinstance(resp.content, str) else str(resp.content)
+        return {"answer": answer_text}
 
     g = StateGraph(State)
 

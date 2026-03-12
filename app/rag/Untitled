@@ -1,0 +1,18 @@
+from app.rag.vectordb import get_vstore
+
+
+def get_retriever(db_url: str, customer_id: str | None = None):
+    vstore = get_vstore(db_url)
+
+    search_kwargs = {
+        "k": 6,
+        "fetch_k": 12,
+    }
+
+    if customer_id:
+        search_kwargs["filter"] = {"customer_id": customer_id}
+
+    return vstore.as_retriever(
+        search_type="mmr",
+        search_kwargs=search_kwargs,
+    )

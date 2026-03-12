@@ -8,13 +8,32 @@ API_URL = "http://127.0.0.1:8000/ask"
 
 
 def detect_sentiment(answer: str) -> str:
-    text = answer.lower()
+    text = answer.lower().strip()
 
-    if "sentiment: red" in text or "**sentiment: red**" in text:
+    red_patterns = [
+        "sentiment: red",
+        "**sentiment: red**",
+        "customer sentiment: red",
+        "sentiment is red",
+    ]
+    yellow_patterns = [
+        "sentiment: yellow",
+        "**sentiment: yellow**",
+        "customer sentiment: yellow",
+        "sentiment is yellow",
+    ]
+    green_patterns = [
+        "sentiment: green",
+        "**sentiment: green**",
+        "customer sentiment: green",
+        "sentiment is green",
+    ]
+
+    if any(p in text for p in red_patterns):
         return "Red"
-    if "sentiment: yellow" in text or "**sentiment: yellow**" in text:
+    if any(p in text for p in yellow_patterns):
         return "Yellow"
-    if "sentiment: green" in text or "**sentiment: green**" in text:
+    if any(p in text for p in green_patterns):
         return "Green"
 
     return "Unknown"

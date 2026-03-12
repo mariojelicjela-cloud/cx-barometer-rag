@@ -1,7 +1,7 @@
 [
     {
       "customer_id": "1001",
-      "company_name": "Prva firma d.o.o.",
+      "company_name": "Grindhouse j.d.o.o.",
       "churn_risk": 0.78,
       "churn_label": "high",
       "medallia_score": 3,
