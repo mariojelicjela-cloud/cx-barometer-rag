@@ -72,7 +72,7 @@ def build_graph():
             if signals and "company_name" in signals:
                 company = signals["company_name"]
 
-            query = f"{company} Grindhouse j.d.o.o. company Croatia news Poslovna Hrvatska business profile"
+            query = f"{company} Grindhouse j.d.o.o.  Poslovna Hrvatska business profile"
 
             results = tavily_search(query)
 

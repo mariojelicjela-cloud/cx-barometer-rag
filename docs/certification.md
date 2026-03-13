@@ -79,6 +79,8 @@ These employees manage high-value business clients where service continuity, tru
 # CX Barometer
 ![UX Flow](./images/CX_barometar.png)
 
+# CX Barometer Architecture
+![CX Barometer Architecture](images/cx_barometer_architecture.png)
 
 
 # 💡 2. Solution — Proposed system + UX flow (1–2 paragraphs)

@@ -48,3 +48,6 @@ http://127.0.0.1:8000/
 
 Full project write-up is available in:
 docs/certification.md
+
+Video:
+https://www.loom.com/share/3e86f0c6585142749fc7cfc8b3f5a9db
