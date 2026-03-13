@@ -1,14 +1,14 @@
 ---
 title: CX Barometer – Certification Challenge
 author: Mario Jelić
-date: 2026
+date: 13.3.2026
 ---
 
 # CX Barometer – Agentic RAG System
 
 AI-powered sentiment and risk intelligence assistant for B2B call center agents.
 
-🧩 1. Problem + Audience
+# 🧩 1. Problem + Audience
 What problem are you trying to solve? Why is this a problem?
 
 Customer service agents in a B2B call center environment must quickly understand the full context of a customer before and during an interaction.
@@ -81,7 +81,7 @@ These employees manage high-value business clients where service continuity, tru
 
 
 
-💡 2. Solution — Proposed system + UX flow (1–2 paragraphs)
+# 💡 2. Solution — Proposed system + UX flow (1–2 paragraphs)
 
 CX Barometer is an agentic, retrieval-augmented system embedded into the B2B call-center workspace. At the moment an inbound call arrives (or before an outbound call starts), the agent automatically assembles a customer “interaction brief” by pulling signals from multiple internal systems (LLM-processed call transcripts, complaints, faults, Medallia surveys, churn risk, FTTH quality metrics). 
 
@@ -163,7 +163,8 @@ Tooling choices :
 
 
 
-🔐 3. Data + Keys — Data source + API access working
+# 🔐 3. Data + Keys — Data source + API access working
+
 Likely user questions (what agents will ask)
 
 Agents will typically want fast answers to questions like:
@@ -272,9 +273,37 @@ If sentiment is negative or churn risk is high → optionally trigger public web
 This design keeps the system grounded (retrieved evidence), fast (structured data via SQL), and agentic (web search only when needed).
 
 
+# 🤖 4. End-to-End Prototype
+
+The prototype was implemented as an end-to-end Agentic RAG application for B2B call-center support.
+
+The system consists of:
+
+- FastAPI backend 
+- LangGraph
+- PGVector / PostgreSQL as vector database
+- OpenAI embeddings + LLM reasoning
+- Tavily web search -> external public-data tool
+- Structured customer signals tool - > for churn, complaints, outages, FTTH availability, and billing issues
+- Medallia sentiment scoring tool
+- Minimal dashboard UI for interactive testing
+
+End-to-end workflow :
+
+1. The user enters a customer ID and question
+2. The system retrieves relevant customer context from the vector database
+3. It loads structured customer signals from local mock data
+4. It scores Medallia survey comments for sentiment
+5. It optionally performs public web search through Tavily
+6. The LLM synthesizes the final answer
+
+The prototype is deployed locally and accessible through a FastAPI interface and browser-based dashboard.
+
+The system combines internal RAG retrieval (customer interaction data, complaints, Medallia feedback) with external web search via Tavily.
+External search queries are automatically expanded using the customer's company name extracted from internal signals, improving relevance of public company information.
 
 
-🧪 5. Evaluation Baseline
+# 🧪 5. Evaluation Baseline
 
 To establish an initial evaluation baseline, I created a synthetic evaluation dataset representing typical customer-support scenarios handled by the CX Barometer system.
 
@@ -306,7 +335,7 @@ Metric	Result_
 - number of test cases	8
 - sentiment accuracy	0.125
 - keyword recall	0.577
-- interpretation
+
 
 The low sentiment accuracy indicates that the current prompt and evaluation method require improvement. In several cases the model produced sentiment descriptions that did not exactly match the expected label format.
 
@@ -316,16 +345,39 @@ This baseline provides a measurable starting point for the next phase, where ret
 
 
 
-🧠 6. Retriever Upgrade
+# 🧠 6. Retriever Upgrade
 
-(To be completed)
+After establishing the baseline, I introduced several retriever and prompting improvements to improve grounding quality and sentiment consistency.
 
-Baseline metrics
+1. Improved chunking
+The ingestion pipeline was updated to attach richer metadata to chunks, including `customer_id`, file name, and source path.
 
-Improved chunking
+This allowed the system to better separate customer contexts and reduced retrieval noise.
 
-Hybrid search
 
-Reranking
+2. Customer-specific retrieval
+The retriever was upgraded to use metadata filtering by `customer_id`, which ensured that only relevant chunks for the active customer were retrieved.
 
-Comparative analysis
+3. Stricter answer format
+The response prompt was updated to enforce a more consistent structure:
+
+- Sentiment
+- Customer risk summary
+- Top talking points
+- Evidence
+
+This made evaluation more stable and improved sentiment extraction during scoring.
+
+## Comparative Results
+
+| Metric             | Baseline | Improved |
+| Sentiment accuracy | 0.125    | 0.25 |
+| Keyword recall     | 0.577    | 0.692 |
+
+
+The improved retriever produced better customer-specific grounding and a more reliable answer structure.
+
+The strongest improvements came from filtering retrieval to the correct customer.
+
+While sentiment accuracy is still relatively modest, the retriever upgrade doubled sentiment accuracy and improved keyword recall significantly. This provides a strong foundation for future improvements such as reranking, richer datasets, and more robust sentiment classification.
+

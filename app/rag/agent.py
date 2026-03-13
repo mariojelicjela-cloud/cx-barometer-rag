@@ -64,10 +64,20 @@ def build_graph():
         return {"customer_signals": signals}
 
     def web_node(state: State) -> State:
-        q = _question(state)
-        if should_use_web_search(q):
-            results = tavily_search(q)
+        if should_use_web_search(state["question"]):
+
+            company = ""
+            signals = state.get("customer_signals", {})
+
+            if signals and "company_name" in signals:
+                company = signals["company_name"]
+
+            query = f"{company} Grindhouse j.d.o.o. company Croatia news Poslovna Hrvatska business profile"
+
+            results = tavily_search(query)
+
             return {"web_results": results}
+
         return {"web_results": []}
 
     def medallia_sentiment_node(state: State) -> State:
